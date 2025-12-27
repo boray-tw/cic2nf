@@ -1,0 +1,13 @@
+Usage:
+  make TARGET
+Description:
+  Build the CSV-to-NetFlow binary (csv_to_nf)
+  and the labeling binary (label_nf).
+Targets:
+  all     Run "build" target. (default)
+  build   Compile binaries only.
+  info    Show this information.
+  dev     Enter a Docker container for development.
+          Required for "make debug".
+  debug   Compile and run binaries with debugging info.
+  clean   Remove compiled artifacts.
