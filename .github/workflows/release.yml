@@ -1,0 +1,32 @@
+name: Build Release Binaries
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Build release binaries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: 1.92
+
+      - name: Build the binaries
+        run: cargo build --verbose --release
+
+      - name: Upload binaries to release
+        # spell-checker: disable-next-line
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/{csv_to_nf,label_nf}
+          tag: ${{ github.ref }}
+          overwrite: true
+          draft: true
