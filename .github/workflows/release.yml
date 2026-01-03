@@ -25,6 +25,21 @@ jobs:
       - name: Rustfmt Check
         uses: actions-rust-lang/rustfmt@v1
 
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: $RUST_VERSION
+
+      - name: Run unit tests
+        run: cargo test --all-features
+
   build:
     name: Build release binaries
     runs-on: ubuntu-latest
