@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use cic2nf::{
     cic::{dataset_name::DatasetName, io::read_csv},
     nf::{
@@ -128,14 +130,10 @@ pub fn convert_cic_file_to_nf_files(
     std::fs::create_dir_all(out_dir)
         .expect(&format!("Unable to create output directory {}", out_dir).to_string());
 
-    let categorized_nf_records: Vec<Vec<NetFlow>> = categorize_nf(nf_records, label_library);
+    let categorized_nf_records: HashMap<String, Vec<NetFlow>> = categorize_nf(nf_records);
 
-    for nf_one_category in categorized_nf_records {
-        if nf_one_category.is_empty() {
-            continue;
-        }
-        let label_name = nf_one_category[0].label().name();
+    for (label_name, nf_records) in categorized_nf_records {
         let out_path: String = format!("{}/{}.nf", out_dir, label_name);
-        write_nf_file(&nf_one_category, &out_path);
+        write_nf_file(&nf_records, &out_path);
     }
 }

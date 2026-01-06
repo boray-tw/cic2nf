@@ -227,18 +227,22 @@ fn get_n_digit_in_decimal(mut x: i64) -> u8 {
     n
 }
 
-pub fn categorize_nf(
-    nf_records: Vec<NetFlow>,
-    label_library: HashMap<String, u8>,
-) -> Vec<Vec<NetFlow>> {
-    // categorized_records[0] is always benign by the design of
-    // update_label_and_index_mut()
-    let mut categorized_records: Vec<Vec<NetFlow>> =
-        vec![Vec::<NetFlow>::new(); label_library.len()];
+/// Categorize NetFlow records by their labels, and return a dictionary
+/// with label name as the keys, corresponding records as the values.
+///
+/// # Arguments
+/// * `nf_records` - A vector of NetFlow
+pub fn categorize_nf<I>(nf_records: I) -> HashMap<String, Vec<NetFlow>>
+where
+    I: Iterator<Item = NetFlow>,
+{
+    let mut categorized_records: HashMap<String, Vec<NetFlow>> = HashMap::new();
 
     for nf in nf_records {
-        let i = (nf.label.index() - 1) as usize;
-        categorized_records[i].push(nf);
+        categorized_records
+            .entry(nf.label().name().to_owned())
+            .or_insert(vec![])
+            .push(nf);
     }
 
     return categorized_records;
