@@ -3,8 +3,7 @@ SHELL = /bin/sh
 BUILD_DIR = build
 
 # host paths
-#INPUT_DIR_HOST = $(PWD)/input
-INPUT_DIR_HOST = /bc0/misc/datasets
+INPUT_DIR_HOST = $(PWD)/input
 OUTPUT_DIR_HOST = $(PWD)/output
 
 # Docker paths
