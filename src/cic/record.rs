@@ -39,12 +39,12 @@ impl CICRecord {
             protocol: record[5].parse().unwrap(),
             timestamp,
             duration: Duration::microseconds(record[7].parse().unwrap()),
-            n_packet: packet_parser_config.get_counts(&record[10], &record[11]),
+            n_packet: packet_parser_config.get_counts(&record[8], &record[9]),
             n_bytes_packet: packet_parser_config.get_bytes(
-                &record[8],
-                &record[9],
                 &record[40],
                 &record[41],
+                &record[10],
+                &record[11],
             ),
             flag_count: CICFlagCount::new([
                 &record[36],
