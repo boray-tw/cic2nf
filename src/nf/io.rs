@@ -1,7 +1,5 @@
 use chrono::{Duration, NaiveDateTime};
 
-use crate::cic::label::Label;
-
 use super::flow::{NetFlow, set_nf_format};
 use super::{super::cic::time::FlowTimeStamp, flags::Flags};
 use std::fs::OpenOptions;
@@ -20,7 +18,7 @@ impl NetFlowReader {
     /// 2023-12-31 23:59:59.123
     const TIMESTAMP_FORMAT: &'static str = "%Y-%m-%d %H:%M:%S%.3f";
 
-    pub fn read_line(&self, input_line: &String, label: &Label) -> NetFlow {
+    pub fn read_line(&self, input_line: &String, label: &String) -> NetFlow {
         fn next<'a>(iter: &mut dyn Iterator<Item = &'a str>) -> &'a str {
             iter.next().unwrap()
         }
@@ -111,7 +109,7 @@ impl NetFlowReader {
 pub fn read_nf_file(fname: &String) -> Vec<NetFlow> {
     let file: File =
         File::open(fname).expect(format!("Cannot read the NetFlow file {}", fname).as_str());
-    let no_label = Label::new(0, "NoLabel".to_string());
+    let no_label = "NoLabel".to_string();
     let mut flow_storage: Vec<NetFlow> = Vec::new();
     let nf_reader: NetFlowReader = NetFlowReader::new();
 

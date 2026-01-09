@@ -1,5 +1,5 @@
 use super::flags::Flags;
-use crate::cic::{label::Label, record::CICRecord, time::FlowTimeStamp};
+use crate::cic::{record::CICRecord, time::FlowTimeStamp};
 use chrono::Duration;
 use log::warn;
 use std::{cmp::max, collections::HashMap};
@@ -20,7 +20,7 @@ pub struct NetFlow {
     pub n_bytes_packet: usize,
     pub width_n_bytes_packet: u8,
     pub n_flow: u32,
-    pub label: Label,
+    pub label: String,
 }
 
 const DURATION_ZERO: Duration = Duration::zero();
@@ -42,7 +42,7 @@ impl From<CICRecord> for [Option<NetFlow>; 2] {
         let n_packet: &[u32; 2] = cr.n_packet();
         let n_bytes_packet: &[usize; 2] = cr.n_bytes_packet();
         let flags: Flags = cr.flag_count().into();
-        let label: &Label = cr.label();
+        let label: &String = cr.label();
 
         // construct NetFlow object for each direction,
         // if there is any packet in that direction
@@ -95,7 +95,7 @@ impl From<CICRecord> for [Option<NetFlow>; 2] {
 }
 
 impl NetFlow {
-    pub fn label(&self) -> &Label {
+    pub fn label(&self) -> &String {
         &self.label
     }
 
@@ -240,7 +240,7 @@ where
 
     for nf in nf_records {
         categorized_records
-            .entry(nf.label().name().to_owned())
+            .entry(nf.label().to_owned())
             .or_insert(vec![])
             .push(nf);
     }
