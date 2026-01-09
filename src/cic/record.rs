@@ -85,10 +85,10 @@ impl CICRecord {
             duration: Duration::microseconds(record[8].parse().unwrap()),
             n_packet: packet_parser_config.get_counts(&record[9], &record[10]),
             n_bytes_packet: packet_parser_config.get_bytes(
-                &record[11],
-                &record[12],
                 &record[41],
                 &record[42],
+                &record[11],
+                &record[12],
             ),
             flag_count: CICFlagCount::new([
                 &record[37],
