@@ -234,7 +234,7 @@ fn get_n_digit_in_decimal(mut x: i64) -> u8 {
 /// * `nf_records` - A vector of NetFlow
 pub fn categorize_nf<I>(nf_records: I) -> HashMap<String, Vec<NetFlow>>
 where
-    I: Iterator<Item = NetFlow>,
+    I: IntoIterator<Item = NetFlow>,
 {
     let mut categorized_records: HashMap<String, Vec<NetFlow>> = HashMap::new();
 
